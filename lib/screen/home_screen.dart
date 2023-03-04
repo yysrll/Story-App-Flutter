@@ -15,7 +15,7 @@ class HomeScreen extends StatelessWidget {
             },
             icon: const Icon(MdiIcons.logout))
       ],
-      body: ListView.separated(
+      body: ListView.builder(
           itemBuilder: (context, i) {
             return StoryCard(
               title: "title $i",
@@ -23,9 +23,6 @@ class HomeScreen extends StatelessWidget {
               description:
                   'description sahjsg asbvhas d sadhiasj dsjbf jbdsjbf djbjsd jsdbfjdsbfj jdsbf JAHKGs AAJGS ASJHD AJJ nadsnln adsjbn djsah ;jbladj;',
             );
-          },
-          separatorBuilder: (context, i) {
-            return SizedBox();
           },
           itemCount: 5),
     );
