@@ -1,8 +1,12 @@
 part of 'widget.dart';
 
 class CustomPasswordFormField extends StatefulWidget {
+
+  final TextEditingController? editingController;
+
   const CustomPasswordFormField({
     super.key,
+    this.editingController
   });
 
   @override
@@ -24,6 +28,7 @@ class _CustomPasswordFormFieldState extends State<CustomPasswordFormField> {
         ),
         const SizedBox(height: 8),
         TextFormField(
+          controller: widget.editingController,
           obscureText: isObscure,
           decoration: InputDecoration(
               hintText: 'Masukkan password',

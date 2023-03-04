@@ -25,6 +25,7 @@ class CustomFormField extends StatelessWidget {
         ),
         const SizedBox(height: 8),
         TextFormField(
+          controller: editingController,
           decoration: InputDecoration(
             border: const OutlineInputBorder(),
             hintText: 'Masukkan ${title.toLowerCase()}'

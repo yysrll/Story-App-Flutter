@@ -1,11 +1,41 @@
 part of 'screen.dart';
 
-class RegisterScreen extends StatelessWidget {
-  const RegisterScreen({Key? key}) : super(key: key);
+class RegisterScreen extends StatefulWidget {
+  final Function() onRegister;
+  final Function() onLogin;
+
+  const RegisterScreen({
+    Key? key,
+    required this.onRegister,
+    required this.onLogin,
+  }) : super(key: key);
+
+  @override
+  State<RegisterScreen> createState() => _RegisterScreenState();
+}
+
+class _RegisterScreenState extends State<RegisterScreen> {
+  final nameController = TextEditingController();
+  final emailController = TextEditingController();
+  final passwordController = TextEditingController();
+  final formKey = GlobalKey<FormState>();
+
+  @override
+  void initState() {
+    print('terbuka mi register we');
+    super.initState();
+  }
+
+  @override
+  void dispose() {
+    nameController.dispose();
+    emailController.dispose();
+    passwordController.dispose();
+    super.dispose();
+  }
 
   @override
   Widget build(BuildContext context) {
-    final GlobalKey<FormState> formKey = GlobalKey<FormState>();
     return Scaffold(
       body: SafeArea(
         child: Padding(
@@ -29,20 +59,27 @@ class RegisterScreen extends StatelessWidget {
                 key: formKey,
                 child: Column(
                   children: [
-                    const CustomFormField(
+                    CustomFormField(
                       title: "Nama",
+                      editingController: nameController,
                     ),
-                    const CustomFormField(
+                    CustomFormField(
                       title: "Email",
+                      editingController: emailController,
                     ),
-                    const CustomPasswordFormField(),
+                    CustomPasswordFormField(
+                      editingController: passwordController,
+                    ),
                     SizedBox(
                       width: MediaQuery.of(context).size.width,
                       height: 50,
                       child: ElevatedButton(
                         onPressed: () {
                           if (formKey.currentState!.validate()) {
-                            //
+                            final scaffoldMessenger =
+                                ScaffoldMessenger.of(context);
+                            scaffoldMessenger.showSnackBar(
+                                const SnackBar(content: Text("register")));
                           }
                         },
                         child: const Text("Register"),
@@ -58,9 +95,7 @@ class RegisterScreen extends StatelessWidget {
                       width: MediaQuery.of(context).size.width,
                       height: 50,
                       child: OutlinedButton(
-                        onPressed: () {
-                          Navigator.of(context).push(MaterialPageRoute(builder: (context) => const LoginScreen()));
-                        },
+                        onPressed: () => widget.onLogin(),
                         child: const Text("Login"),
                       ),
                     ),

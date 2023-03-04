@@ -1,11 +1,25 @@
 part of 'screen.dart';
 
-class LoginScreen extends StatelessWidget {
-  const LoginScreen({Key? key}) : super(key: key);
+class LoginScreen extends StatefulWidget {
+  final Function() onLogin;
+  final Function() onRegister;
+  const LoginScreen({
+    Key? key,
+    required this.onLogin,
+    required this.onRegister,
+  }) : super(key: key);
+
+  @override
+  State<LoginScreen> createState() => _LoginScreenState();
+}
+
+class _LoginScreenState extends State<LoginScreen> {
+  final GlobalKey<FormState> formKey = GlobalKey<FormState>();
+  TextEditingController emailController = TextEditingController();
+  TextEditingController passwordController = TextEditingController();
 
   @override
   Widget build(BuildContext context) {
-    final GlobalKey<FormState> formKey = GlobalKey<FormState>();
     return Scaffold(
       body: SafeArea(
         child: Padding(
@@ -29,23 +43,42 @@ class LoginScreen extends StatelessWidget {
                 key: formKey,
                 child: Column(
                   children: [
-                    const CustomFormField(
+                    CustomFormField(
                       title: "Email",
+                      editingController: emailController,
                     ),
-                    const CustomPasswordFormField(),
+                    CustomPasswordFormField(
+                        editingController: passwordController),
                     SizedBox(
-                      width: MediaQuery.of(context).size.width,
-                      height: 50,
-                      child: ElevatedButton(
-                        onPressed: () {
-                          // if (formKey.currentState!.validate()) {
-                          //
-                          // }
-                          Navigator.of(context).pushReplacement(MaterialPageRoute(builder: (context) => const HomeScreen()));
-                        },
-                        child: const Text("Login"),
-                      ),
-                    ),
+                        width: MediaQuery.of(context).size.width,
+                        height: 50,
+                        child: context.watch<AuthProvider>().isLoadingLogin
+                            ? const Center(
+                                child: CircularProgressIndicator(),
+                              )
+                            : ElevatedButton(
+                                onPressed: () async {
+                                  if (formKey.currentState!.validate()) {
+                                    final scaffoldMessenger =
+                                        ScaffoldMessenger.of(context);
+                                    final authRead =
+                                        context.read<AuthProvider>();
+                                    final result = await authRead.login(
+                                        emailController.text,
+                                        passwordController.text);
+
+                                    if (result) {
+                                      print('onLogin cuy');
+                                      widget.onLogin();
+                                    } else {
+                                      final message = authRead.message;
+                                      scaffoldMessenger.showSnackBar(
+                                          SnackBar(content: Text(message)));
+                                    }
+                                  }
+                                },
+                                child: const Text("Login"),
+                              )),
                     const SizedBox(height: 24),
                     const Text(
                       "Belum memiliki akun?",
@@ -57,7 +90,8 @@ class LoginScreen extends StatelessWidget {
                       height: 50,
                       child: OutlinedButton(
                         onPressed: () {
-                          Navigator.of(context).push(MaterialPageRoute(builder: (context) => const RegisterScreen()));
+                          widget.onRegister();
+                          print('register cuk');
                         },
                         child: const Text("Register"),
                       ),
@@ -70,5 +104,12 @@ class LoginScreen extends StatelessWidget {
         ),
       ),
     );
+  }
+
+  @override
+  void dispose() {
+    emailController.dispose();
+    passwordController.dispose();
+    super.dispose();
   }
 }

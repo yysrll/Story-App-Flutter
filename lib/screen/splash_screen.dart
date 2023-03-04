@@ -10,11 +10,26 @@ class SplashScreen extends StatefulWidget {
 class _SplashScreenState extends State<SplashScreen> {
   @override
   void initState() {
-    Future.delayed(const Duration(seconds: 2), () {
-      Navigator.of(context).pushReplacement(
-          MaterialPageRoute(builder: (context) => const LoginScreen()));
-    });
+    // Future.delayed(const Duration(seconds: 5), () async {
+      // var isLogin = await checkIsLoggedIn();
+      // if (isLogin) {
+      //   to(const HomeScreen());
+      // } else {
+      //   to(const LoginScreen());
+      // }
+
+        // to(const LoginScreen());
+    // });
     super.initState();
+  }
+
+  void to(Widget widget) {
+    Navigator.of(context)
+        .pushReplacement(MaterialPageRoute(builder: (context) => widget));
+  }
+
+  Future<bool> checkIsLoggedIn() async {
+    return context.read<AuthProvider>().isLoggedIn;
   }
 
   @override

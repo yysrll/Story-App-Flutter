@@ -1,7 +1,9 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_story_app/provider/auth_provider.dart';
 import 'package:flutter_story_app/screen/layout/main_layout.dart';
 import 'package:flutter_story_app/widgets/widget.dart';
 import 'package:material_design_icons_flutter/material_design_icons_flutter.dart';
+import 'package:provider/provider.dart';
 
 part 'splash_screen.dart';
 part 'login_screen.dart';

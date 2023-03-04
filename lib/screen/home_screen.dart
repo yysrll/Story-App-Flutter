@@ -1,7 +1,11 @@
 part of 'screen.dart';
 
 class HomeScreen extends StatelessWidget {
-  const HomeScreen({Key? key}) : super(key: key);
+  final Function() onLogout;
+  const HomeScreen({
+    Key? key,
+    required this.onLogout,
+  }) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -9,9 +13,12 @@ class HomeScreen extends StatelessWidget {
       title: "Beranda",
       action: [
         IconButton(
-            onPressed: () {
-              Navigator.of(context).pushReplacement(
-                  MaterialPageRoute(builder: (_) => const LoginScreen()));
+            onPressed: () async {
+              final authRead = context.read<AuthProvider>();
+              final result = await authRead.logout();
+              if (result) {
+                onLogout();
+              }
             },
             icon: const Icon(MdiIcons.logout))
       ],
