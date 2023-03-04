@@ -22,13 +22,12 @@ class StoryCard extends StatelessWidget {
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          ClipRRect(
-            child: Image.network(
-              "https://picsum.photos/200/300",
-              width: MediaQuery.of(context).size.width,
-              height: 300,
-              fit: BoxFit.fill,
-            ),
+          FadeInImage.assetNetwork(
+            placeholder: 'assets/images/placeholder_image.jpeg',
+            image: "https://picsum.photos/200/300",
+            width: MediaQuery.of(context).size.width,
+            height: 300,
+            fit: BoxFit.fill,
           ),
           Padding(
             padding:
