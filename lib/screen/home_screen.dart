@@ -22,16 +22,25 @@ class HomeScreen extends StatelessWidget {
             },
             icon: const Icon(MdiIcons.logout))
       ],
-      body: ListView.builder(
-          itemBuilder: (context, i) {
-            return StoryCard(
-              title: "title $i",
-              onTap: () {},
-              description:
-                  'description sahjsg asbvhas d sadhiasj dsjbf jbdsjbf djbjsd jsdbfjdsbfj jdsbf JAHKGs AAJGS ASJHD AJJ nadsnln adsjbn djsah ;jbladj;',
-            );
-          },
-          itemCount: 5),
+      body: ChangeNotifierProvider(
+        create: (context) => StoryProvider(),
+        child: Consumer<StoryProvider>(builder: (context, prov, _) {
+          if (prov.state == ResultState.loading) {
+            return const Center(child: CircularProgressIndicator());
+          } else if (prov.state == ResultState.hasData) {
+            return ListView.builder(
+                itemCount: prov.stories.length,
+                itemBuilder: (context, i) {
+                  return StoryCard(
+                    story: prov.stories[i],
+                    onTap: () {},
+                  );
+                });
+          } else {
+            return Center(child: Text(prov.message));
+          }
+        }),
+      ),
     );
   }
 }

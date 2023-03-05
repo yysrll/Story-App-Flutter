@@ -1,14 +1,12 @@
 part of 'widget.dart';
 
 class StoryCard extends StatelessWidget {
-  final String title;
-  final String description;
+  final Story story;
   final Function onTap;
 
   const StoryCard({
     Key? key,
-    required this.title,
-    required this.description,
+    required this.story,
     required this.onTap,
   }) : super(key: key);
 
@@ -24,7 +22,7 @@ class StoryCard extends StatelessWidget {
         children: [
           FadeInImage.assetNetwork(
             placeholder: 'assets/images/placeholder_image.jpeg',
-            image: "https://picsum.photos/200/300",
+            image: story.photoUrl,
             width: MediaQuery.of(context).size.width,
             height: 300,
             fit: BoxFit.fill,
@@ -35,14 +33,14 @@ class StoryCard extends StatelessWidget {
             child: RichText(
               maxLines: 2,
               text: TextSpan(
-                text: '$title   ',
+                text: '${story.name}   ',
                 style: Theme.of(context)
                     .textTheme
                     .bodyLarge
                     ?.copyWith(fontWeight: FontWeight.bold),
                 children: <TextSpan>[
                   TextSpan(
-                    text: description,
+                    text: story.description,
                     style: Theme.of(context)
                         .textTheme
                         .bodyLarge
@@ -55,7 +53,7 @@ class StoryCard extends StatelessWidget {
           Padding(
             padding: const EdgeInsets.only(right: 16, bottom: 8, left: 16),
             child: Text(
-              '2 Maret 2023 18:12',
+              story.createdAt,
               style: Theme.of(context).textTheme.bodyMedium?.copyWith(
                   fontWeight: FontWeight.normal, color: Colors.black54),
             ),

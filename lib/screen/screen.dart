@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_story_app/provider/auth_provider.dart';
+import 'package:flutter_story_app/provider/result_state.dart';
+import 'package:flutter_story_app/provider/story_provider.dart';
 import 'package:flutter_story_app/routes/page_manager.dart';
 import 'package:flutter_story_app/screen/layout/main_layout.dart';
 import 'package:flutter_story_app/widgets/widget.dart';
