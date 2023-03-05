@@ -21,12 +21,6 @@ class _RegisterScreenState extends State<RegisterScreen> {
   final formKey = GlobalKey<FormState>();
 
   @override
-  void initState() {
-    print('terbuka mi register we');
-    super.initState();
-  }
-
-  @override
   void dispose() {
     nameController.dispose();
     emailController.dispose();
@@ -73,17 +67,33 @@ class _RegisterScreenState extends State<RegisterScreen> {
                     SizedBox(
                       width: MediaQuery.of(context).size.width,
                       height: 50,
-                      child: ElevatedButton(
-                        onPressed: () {
-                          if (formKey.currentState!.validate()) {
-                            final scaffoldMessenger =
-                                ScaffoldMessenger.of(context);
-                            scaffoldMessenger.showSnackBar(
-                                const SnackBar(content: Text("register")));
-                          }
-                        },
-                        child: const Text("Register"),
-                      ),
+                      child: context.watch<AuthProvider>().isLoadingRegister
+                          ? const Center(
+                              child: CircularProgressIndicator(),
+                            )
+                          : ElevatedButton(
+                              onPressed: () async {
+                                if (formKey.currentState!.validate()) {
+                                  final scaffoldMessenger =
+                                      ScaffoldMessenger.of(context);
+                                  final pageManager =
+                                      context.read<PageManager<String>>();
+                                  final authRead = context.read<AuthProvider>();
+                                  final result = await authRead.register(
+                                      nameController.text,
+                                      emailController.text,
+                                      passwordController.text);
+                                  if (result) {
+                                    widget.onRegister();
+                                    pageManager.returnData(authRead.message);
+                                  } else {
+                                    scaffoldMessenger.showSnackBar(SnackBar(
+                                        content: Text(authRead.message)));
+                                  }
+                                }
+                              },
+                              child: const Text("Register"),
+                            ),
                     ),
                     const SizedBox(height: 24),
                     const Text(

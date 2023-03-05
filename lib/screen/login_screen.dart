@@ -68,7 +68,6 @@ class _LoginScreenState extends State<LoginScreen> {
                                         passwordController.text);
 
                                     if (result) {
-                                      print('onLogin cuy');
                                       widget.onLogin();
                                     } else {
                                       final message = authRead.message;
@@ -89,9 +88,16 @@ class _LoginScreenState extends State<LoginScreen> {
                       width: MediaQuery.of(context).size.width,
                       height: 50,
                       child: OutlinedButton(
-                        onPressed: () {
+                        onPressed: () async {
+                          final scaffoldMessengerState =
+                              ScaffoldMessenger.of(context);
                           widget.onRegister();
-                          print('register cuk');
+
+                          final dataFromRegister = await context
+                              .read<PageManager<String>>()
+                              .waitForResult();
+                          scaffoldMessengerState.showSnackBar(
+                              SnackBar(content: Text(dataFromRegister)));
                         },
                         child: const Text("Register"),
                       ),

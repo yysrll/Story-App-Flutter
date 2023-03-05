@@ -23,7 +23,6 @@ class AuthProvider extends ChangeNotifier {
 
   Future<void> isLogin() async {
     isLoggedIn = await pref.isLoggedIn();
-    print('islogin aplikasi: $isLoggedIn');
   }
 
   Future<bool> login(String email, String password) async {
@@ -36,7 +35,6 @@ class AuthProvider extends ChangeNotifier {
         await pref.login(result.loginResult);
       }
       isLoggedIn = await pref.isLoggedIn();
-      print('islogin aplikasi dalam future login: $isLoggedIn');
     } catch (e) {
       _message = e.toString();
       notifyListeners();
@@ -62,5 +60,24 @@ class AuthProvider extends ChangeNotifier {
       notifyListeners();
     }
     return !isLoggedIn;
+  }
+
+  Future<bool> register(String name, String email, String password) async {
+    bool isRegistered = false;
+    try {
+      isLoadingRegister = true;
+      notifyListeners();
+
+      final result = await api.register(name, email, password);
+      _message = result.message.toString();
+      isRegistered = !(result.error ?? true);
+    } catch (e) {
+      _message = e.toString();
+      notifyListeners();
+    } finally {
+      isLoadingRegister = false;
+      notifyListeners();
+    }
+    return isRegistered;
   }
 }

@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_story_app/data/pref/pref_helper.dart';
 import 'package:flutter_story_app/provider/auth_provider.dart';
+import 'package:flutter_story_app/routes/page_manager.dart';
 import 'package:flutter_story_app/routes/router_delegate.dart';
-import 'package:flutter_story_app/screen/screen.dart';
 import 'package:provider/provider.dart';
 
 void main() {
@@ -35,6 +35,7 @@ class _MyAppState extends State<MyApp> {
         ChangeNotifierProvider(
           create: (context) => AuthProvider(),
         ),
+        ChangeNotifierProvider(create: (context) => PageManager<String>()),
       ],
       child: MaterialApp(
         title: 'Flutter Demo',

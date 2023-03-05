@@ -23,4 +23,25 @@ class ApiService {
       throw HttpException(e.toString());
     }
   }
+
+  Future<LoginResponse> register(String name, String email, String password) async {
+    try {
+      final response = await http.post(Uri.parse('${baseUrl}register'),
+          body: {
+            'name': name,
+            'email': email, 
+            'password': password
+            });
+
+      final result = jsonDecode(response.body);
+
+      if (response.statusCode >= 200 && response.statusCode < 300) {
+        return LoginResponse.fromJson(result);
+      } else {
+        throw HttpException(result['message']);
+      }
+    } catch (e) {
+      throw HttpException(e.toString());
+    }
+  }
 }

@@ -70,7 +70,6 @@ class MyRouterDelegate extends RouterDelegate
               notifyListeners();
             },
             onRegister: () {
-              print('klik onregister di router');
               isRegister = true;
               notifyListeners();
             },
