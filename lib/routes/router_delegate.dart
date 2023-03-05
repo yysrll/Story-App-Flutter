@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_story_app/data/pref/pref_helper.dart';
+import 'package:flutter_story_app/model/story.dart';
 import 'package:flutter_story_app/screen/screen.dart';
 
 class MyRouterDelegate extends RouterDelegate
@@ -23,6 +24,8 @@ class MyRouterDelegate extends RouterDelegate
   bool? isLoggedIn;
   bool isRegister = false;
 
+  Story? selectedStory;
+
   @override
   Widget build(BuildContext context) {
     if (isLoggedIn == null) {
@@ -42,6 +45,7 @@ class MyRouterDelegate extends RouterDelegate
         }
 
         isRegister = true;
+        selectedStory = null;
         notifyListeners();
 
         return true;
@@ -99,7 +103,16 @@ class MyRouterDelegate extends RouterDelegate
               isLoggedIn = false;
               notifyListeners();
             },
+            onDetail: (Story story) {
+              selectedStory = story;
+              notifyListeners();
+            },
           ),
         ),
+        if (selectedStory != null)
+          MaterialPage(
+            key: const ValueKey('DetailPage'),
+            child: DetailScreen(story: selectedStory!),
+          ),
       ];
 }

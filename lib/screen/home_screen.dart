@@ -2,9 +2,11 @@ part of 'screen.dart';
 
 class HomeScreen extends StatelessWidget {
   final Function() onLogout;
+  final Function(Story) onDetail;
   const HomeScreen({
     Key? key,
     required this.onLogout,
+    required this.onDetail,
   }) : super(key: key);
 
   @override
@@ -33,7 +35,9 @@ class HomeScreen extends StatelessWidget {
                 itemBuilder: (context, i) {
                   return StoryCard(
                     story: prov.stories[i],
-                    onTap: () {},
+                    onTap: () {
+                      onDetail(prov.stories[i]);
+                    },
                   );
                 });
           } else {

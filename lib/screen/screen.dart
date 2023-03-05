@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_story_app/model/story.dart';
 import 'package:flutter_story_app/provider/auth_provider.dart';
 import 'package:flutter_story_app/provider/result_state.dart';
 import 'package:flutter_story_app/provider/story_provider.dart';
@@ -12,3 +13,4 @@ part 'splash_screen.dart';
 part 'login_screen.dart';
 part 'register_screen.dart';
 part 'home_screen.dart';
+part 'detail_screen.dart';
