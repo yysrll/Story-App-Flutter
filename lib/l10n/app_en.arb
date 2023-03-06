@@ -18,5 +18,7 @@
     "camera": "Camera",
     "imageCannotBeEmpty": "Image can't be empty",
     "submit": "Submit",
-    "addStory": "Add Story"
+    "addStory": "Add Story",
+    "logoutConfirmation": "Are you sure to logout?",
+    "logout": "Logout"
 }

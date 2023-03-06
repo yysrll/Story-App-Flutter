@@ -45,5 +45,7 @@
     "camera": "Kamera",
     "imageCannotBeEmpty": "Gambar tidak boleh kosong",
     "submit": "Kirim",
-    "addStory": "Tambah cerita"
+    "addStory": "Tambah cerita",
+    "logoutConfirmation": "Apakah anda yakin untuk keluar?",
+    "logout": "Keluar"
 }

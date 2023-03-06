@@ -41,7 +41,6 @@ class _MyAppState extends State<MyApp> {
         ),
         ChangeNotifierProvider(create: (context) => PageManager<String>()),
         ChangeNotifierProvider(create: (context) => StoryProvider()),
-        // ChangeNotifierProvider(create: (context) => LocalizationProvider()),
       ],
       child: ChangeNotifierProvider<LocalizationProvider>(
         create: (context) => LocalizationProvider(),

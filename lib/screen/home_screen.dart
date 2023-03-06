@@ -4,6 +4,7 @@ class HomeScreen extends StatefulWidget {
   final Function() onLogout;
   final Function(Story) onDetail;
   final Function() onPost;
+
   const HomeScreen({
     Key? key,
     required this.onLogout,
@@ -16,12 +17,12 @@ class HomeScreen extends StatefulWidget {
 }
 
 class _HomeScreenState extends State<HomeScreen> {
-
   @override
   void initState() {
     context.read<StoryProvider>().getStories();
     super.initState();
   }
+
   @override
   Widget build(BuildContext context) {
     return MainLayout(
@@ -29,12 +30,8 @@ class _HomeScreenState extends State<HomeScreen> {
       action: [
         const FlagIcon(),
         IconButton(
-            onPressed: () async {
-              final authRead = context.read<AuthProvider>();
-              final result = await authRead.logout();
-              if (result) {
-                widget.onLogout();
-              }
+            onPressed: () {
+              _showLogoutDialog();
             },
             icon: const Icon(MdiIcons.logout))
       ],
@@ -60,6 +57,39 @@ class _HomeScreenState extends State<HomeScreen> {
           return Center(child: Text(prov.message));
         }
       }),
+    );
+  }
+
+  Future<void> _showLogoutDialog() async {
+    return showDialog<void>(
+      context: context,
+      barrierDismissible: false, // user must tap button!
+      builder: (BuildContext context) {
+        return AlertDialog(
+          title: Text(AppLocalizations.of(context)!.logoutConfirmation),
+          actions: <Widget>[
+            context.watch<AuthProvider>().isLoadingLogout
+                ? const CircularProgressIndicator()
+                : TextButton(
+                    child: Text(AppLocalizations.of(context)!.logout),
+                    onPressed: () async {
+                      final scaffoldMessengerState =
+                          ScaffoldMessenger.of(context);
+                      final authRead = context.read<AuthProvider>();
+                      final navigator = Navigator.of(context);
+                      final result = await authRead.logout();
+                      if (result) {
+                        widget.onLogout();
+                      } else {
+                        scaffoldMessengerState.showSnackBar(
+                            SnackBar(content: Text(authRead.message)));
+                      }
+                      navigator.pop();
+                    },
+                  ),
+          ],
+        );
+      },
     );
   }
 }
