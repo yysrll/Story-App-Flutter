@@ -23,14 +23,14 @@ class _SplashScreenState extends State<SplashScreen> {
     super.initState();
   }
 
-  void to(Widget widget) {
-    Navigator.of(context)
-        .pushReplacement(MaterialPageRoute(builder: (context) => widget));
-  }
-
-  Future<bool> checkIsLoggedIn() async {
-    return context.read<AuthProvider>().isLoggedIn;
-  }
+  // void to(Widget widget) {
+  //   Navigator.of(context)
+  //       .pushReplacement(MaterialPageRoute(builder: (context) => widget));
+  // }
+  //
+  // Future<bool> checkIsLoggedIn() async {
+  //   return context.read<AuthProvider>().isLoggedIn;
+  // }
 
   @override
   Widget build(BuildContext context) {

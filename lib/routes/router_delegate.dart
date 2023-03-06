@@ -122,6 +122,11 @@ class MyRouterDelegate extends RouterDelegate
           ),
         if (isPostScreen)
           MaterialPage(
-              key: const ValueKey('AddStoryPage'), child: AddStoryScreen())
+              key: const ValueKey('AddStoryPage'), child: AddStoryScreen(
+            onSubmit: () {
+              isPostScreen = false;
+              notifyListeners();
+            },
+          ))
       ];
 }

@@ -3,6 +3,7 @@ import 'package:flutter_story_app/data/api/api_service.dart';
 import 'package:flutter_story_app/data/pref/pref_helper.dart';
 import 'package:flutter_story_app/model/story.dart';
 import 'package:flutter_story_app/provider/result_state.dart';
+import 'package:image_picker/image_picker.dart';
 
 class StoryProvider extends ChangeNotifier {
   late ApiService api;
@@ -11,19 +12,22 @@ class StoryProvider extends ChangeNotifier {
   StoryProvider() {
     api = ApiService();
     pref = PrefHelper();
-    getStories();
   }
 
   ResultState _state = ResultState.initial;
+
   ResultState get state => _state;
 
   String _message = '';
+
   String get message => _message;
 
   List<Story> _stories = [];
+
   List<Story> get stories => _stories;
 
   bool _isUploadLoading = false;
+
   bool get isUploadLoading => _isUploadLoading;
 
   Future<void> getStories() async {
@@ -67,8 +71,22 @@ class StoryProvider extends ChangeNotifier {
     } catch (e) {
       _message = e.toString();
     } finally {
+      _isUploadLoading = false;
       notifyListeners();
     }
     return isSuccess;
+  }
+
+  XFile? imageFile;
+  String? imagePath;
+
+  void setImageFile(XFile? file) {
+    imageFile = file;
+    notifyListeners();
+  }
+
+  void setImagePath(String? path) {
+    imagePath = path;
+    notifyListeners();
   }
 }
