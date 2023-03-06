@@ -3,10 +3,12 @@ part of 'screen.dart';
 class HomeScreen extends StatelessWidget {
   final Function() onLogout;
   final Function(Story) onDetail;
+  final Function() onPost;
   const HomeScreen({
     Key? key,
     required this.onLogout,
     required this.onDetail,
+    required this.onPost,
   }) : super(key: key);
 
   @override
@@ -24,6 +26,10 @@ class HomeScreen extends StatelessWidget {
             },
             icon: const Icon(MdiIcons.logout))
       ],
+      floatingActiopnButton: FloatingActionButton(
+        onPressed: () => onPost(),
+        child: const Icon(MdiIcons.plus),
+      ),
       body: ChangeNotifierProvider(
         create: (context) => StoryProvider(),
         child: Consumer<StoryProvider>(builder: (context, prov, _) {

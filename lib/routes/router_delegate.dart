@@ -25,6 +25,7 @@ class MyRouterDelegate extends RouterDelegate
   bool isRegister = false;
 
   Story? selectedStory;
+  bool isPostScreen = false;
 
   @override
   Widget build(BuildContext context) {
@@ -46,6 +47,7 @@ class MyRouterDelegate extends RouterDelegate
 
         isRegister = true;
         selectedStory = null;
+        isPostScreen = false;
         notifyListeners();
 
         return true;
@@ -107,6 +109,10 @@ class MyRouterDelegate extends RouterDelegate
               selectedStory = story;
               notifyListeners();
             },
+            onPost: () {
+              isPostScreen = true;
+              notifyListeners();
+            },
           ),
         ),
         if (selectedStory != null)
@@ -114,5 +120,8 @@ class MyRouterDelegate extends RouterDelegate
             key: const ValueKey('DetailPage'),
             child: DetailScreen(story: selectedStory!),
           ),
+        if (isPostScreen)
+          MaterialPage(
+              key: const ValueKey('AddStoryPage'), child: AddStoryScreen())
       ];
 }

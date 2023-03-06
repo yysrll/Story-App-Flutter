@@ -14,3 +14,4 @@ part 'login_screen.dart';
 part 'register_screen.dart';
 part 'home_screen.dart';
 part 'detail_screen.dart';
+part 'add_story_screen.dart';

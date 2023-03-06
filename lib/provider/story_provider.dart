@@ -23,6 +23,9 @@ class StoryProvider extends ChangeNotifier {
   List<Story> _stories = [];
   List<Story> get stories => _stories;
 
+  bool _isUploadLoading = false;
+  bool get isUploadLoading => _isUploadLoading;
+
   Future<void> getStories() async {
     try {
       _state = ResultState.loading;
@@ -44,5 +47,28 @@ class StoryProvider extends ChangeNotifier {
       _message = e.toString();
       notifyListeners();
     }
+  }
+
+  Future<bool> uploadStory(
+    List<int> bytes,
+    String fileName,
+    String description,
+  ) async {
+    var isSuccess = false;
+    try {
+      _isUploadLoading = true;
+      notifyListeners();
+
+      final token = await pref.getToken();
+      final uploadResponse =
+          await api.uploadStory(bytes, fileName, description, token);
+      _message = uploadResponse.message;
+      isSuccess = !uploadResponse.error;
+    } catch (e) {
+      _message = e.toString();
+    } finally {
+      notifyListeners();
+    }
+    return isSuccess;
   }
 }
