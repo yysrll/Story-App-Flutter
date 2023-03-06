@@ -1,13 +1,9 @@
 part of 'widget.dart';
 
 class CustomPasswordFormField extends StatefulWidget {
-
   final TextEditingController? editingController;
 
-  const CustomPasswordFormField({
-    super.key,
-    this.editingController
-  });
+  const CustomPasswordFormField({super.key, this.editingController});
 
   @override
   State<CustomPasswordFormField> createState() =>
@@ -22,16 +18,17 @@ class _CustomPasswordFormFieldState extends State<CustomPasswordFormField> {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        const Text(
-          'Password',
-          style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold),
+        Text(
+          AppLocalizations.of(context)!.passwordTitleForm,
+          style: const TextStyle(fontSize: 16, fontWeight: FontWeight.bold),
         ),
         const SizedBox(height: 8),
         TextFormField(
           controller: widget.editingController,
           obscureText: isObscure,
           decoration: InputDecoration(
-              hintText: 'Masukkan password',
+              hintText: AppLocalizations.of(context)!.hintTextForm(
+                  AppLocalizations.of(context)!.passwordTitleForm),
               border: const OutlineInputBorder(),
               suffixIcon: IconButton(
                 icon: Icon(
@@ -44,9 +41,10 @@ class _CustomPasswordFormFieldState extends State<CustomPasswordFormField> {
               )),
           validator: (String? value) {
             if (value == null || value.isEmpty) {
-              return 'Password tidak boleh kosong';
+              return AppLocalizations.of(context)!.textFormCannotBeEmpty(
+                  AppLocalizations.of(context)!.passwordTitleForm);
             }
-            if (value.length < 7) return 'Password minimal 6 huruf';
+            if (value.length < 7) return AppLocalizations.of(context)!.passwordMinimumDigit;
             return null;
           },
         ),

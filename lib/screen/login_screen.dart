@@ -3,6 +3,7 @@ part of 'screen.dart';
 class LoginScreen extends StatefulWidget {
   final Function() onLogin;
   final Function() onRegister;
+
   const LoginScreen({
     Key? key,
     required this.onLogin,
@@ -31,9 +32,9 @@ class _LoginScreenState extends State<LoginScreen> {
                 Icons.camera_alt_outlined,
                 size: 52,
               ),
-              const Text(
-                "Ceritaku",
-                style: TextStyle(
+              Text(
+                AppLocalizations.of(context)!.appTitle,
+                style: const TextStyle(
                   fontSize: 32,
                   fontWeight: FontWeight.w400,
                 ),
@@ -44,7 +45,7 @@ class _LoginScreenState extends State<LoginScreen> {
                 child: Column(
                   children: [
                     CustomFormField(
-                      title: "Email",
+                      title: AppLocalizations.of(context)!.emailTitleForm,
                       editingController: emailController,
                     ),
                     CustomPasswordFormField(
@@ -76,12 +77,13 @@ class _LoginScreenState extends State<LoginScreen> {
                                     }
                                   }
                                 },
-                                child: const Text("Login"),
+                                child: Text(AppLocalizations.of(context)!
+                                    .loginTextButton),
                               )),
                     const SizedBox(height: 24),
-                    const Text(
-                      "Belum memiliki akun?",
-                      style: TextStyle(fontSize: 12),
+                    Text(
+                      AppLocalizations.of(context)!.doesntHaveAnAccount,
+                      style: const TextStyle(fontSize: 12),
                     ),
                     const SizedBox(height: 24),
                     SizedBox(
@@ -99,7 +101,7 @@ class _LoginScreenState extends State<LoginScreen> {
                           scaffoldMessengerState.showSnackBar(
                               SnackBar(content: Text(dataFromRegister)));
                         },
-                        child: const Text("Register"),
+                        child: Text(AppLocalizations.of(context)!.registerTextButton),
                       ),
                     ),
                   ],

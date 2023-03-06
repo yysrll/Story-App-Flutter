@@ -28,11 +28,11 @@ class CustomFormField extends StatelessWidget {
           controller: editingController,
           decoration: InputDecoration(
             border: const OutlineInputBorder(),
-            hintText: 'Masukkan ${title.toLowerCase()}'
+            hintText: AppLocalizations.of(context)!.hintTextForm(title.toLowerCase())
           ),
           validator: (String? value) {
             if(value == null || value.isEmpty) {
-              return '$title tidak boleh kosong';
+              return AppLocalizations.of(context)!.textFormCannotBeEmpty(title);
             }
             return null;
           },

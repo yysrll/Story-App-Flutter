@@ -1,0 +1,49 @@
+{
+    "appTitle": "Ceritaku",
+    "emailTitleForm": "Email",
+    "passwordTitleForm": "Kata Sandi",
+    "passwordMinimumDigit": "Kata sandi harus minimal 6 digit",
+    "nameTitleForm": "Nama",
+    "descriptionTitleForm": "Keterangan",
+    "hintTextForm": "Masukkan {data}",
+    "@hintTextForm": {
+        "description": "hint atau placeholder dari form edit text",
+        "placeholders": {
+            "data": {
+                "type": "String"
+            }
+        }
+    },
+    "textFormCannotBeEmpty": "{data} tidak boleh kosong",
+    "@textFormCannotBeEmpty": {
+        "description": "data text field tidak boleh kosong",
+        "placeholders": {
+            "data": {
+                "type": "String"
+            }
+        }
+    },
+    "loginTextButton": "Masuk",
+    "registerTextButton": "Buat Akun",
+    "doesntHaveAnAccount": "Belum memiliki akun?",
+    "haveAnAccount": "Sudah memiliki akun?",
+    "home": "Beranda",
+    "story": "Cerita",
+    "createdAtByName": "Diposting pada {date} oleh {name}",
+    "@createdAtByName": {
+        "description": "waktu dan diposting oleh siapa",
+        "placeholders": {
+            "date": {
+                "type": "String"
+            },
+            "name": {
+                "type": "String"
+            }
+        }
+    },
+    "gallery": "Galeri",
+    "camera": "Kamera",
+    "imageCannotBeEmpty": "Gambar tidak boleh kosong",
+    "submit": "Kirim",
+    "addStory": "Tambah cerita"
+}

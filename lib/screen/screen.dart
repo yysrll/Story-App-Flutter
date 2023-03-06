@@ -2,6 +2,7 @@ import 'dart:io';
 
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_story_app/common.dart';
 import 'package:flutter_story_app/model/story.dart';
 import 'package:flutter_story_app/provider/auth_provider.dart';
 import 'package:flutter_story_app/provider/result_state.dart';

@@ -1,0 +1,22 @@
+{
+    "appTitle": "Ceritaku",
+    "emailTitleForm": "Email",
+    "passwordTitleForm": "Password",
+    "passwordMinimumDigit": "Password must be minimum 6 digits",
+    "nameTitleForm": "Name",
+    "descriptionTitleForm": "Description",
+    "hintTextForm": "Enter {data}",
+    "textFormCannotBeEmpty": "{data} can't be empty",
+    "loginTextButton": "Login",
+    "registerTextButton": "Register",
+    "doesntHaveAnAccount": "Doesn't have an account?",
+    "haveAnAccount": "Have an account?",
+    "home": "Home",
+    "story": "Story",
+    "createdAtByName": "Posted at {date} by {name}",
+    "gallery": "Galerry",
+    "camera": "Camera",
+    "imageCannotBeEmpty": "Image can't be empty",
+    "submit": "Submit",
+    "addStory": "Add Story"
+}

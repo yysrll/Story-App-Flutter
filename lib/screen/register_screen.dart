@@ -41,9 +41,9 @@ class _RegisterScreenState extends State<RegisterScreen> {
                 Icons.camera_alt_outlined,
                 size: 52,
               ),
-              const Text(
-                "Ceritaku",
-                style: TextStyle(
+              Text(
+                AppLocalizations.of(context)!.appTitle,
+                style: const TextStyle(
                   fontSize: 32,
                   fontWeight: FontWeight.w400,
                 ),
@@ -54,11 +54,11 @@ class _RegisterScreenState extends State<RegisterScreen> {
                 child: Column(
                   children: [
                     CustomFormField(
-                      title: "Nama",
+                      title: AppLocalizations.of(context)!.nameTitleForm,
                       editingController: nameController,
                     ),
                     CustomFormField(
-                      title: "Email",
+                      title: AppLocalizations.of(context)!.emailTitleForm,
                       editingController: emailController,
                     ),
                     CustomPasswordFormField(
@@ -92,13 +92,14 @@ class _RegisterScreenState extends State<RegisterScreen> {
                                   }
                                 }
                               },
-                              child: const Text("Register"),
+                              child: Text(AppLocalizations.of(context)!
+                                  .registerTextButton),
                             ),
                     ),
                     const SizedBox(height: 24),
-                    const Text(
-                      "Sudah memiliki akun?",
-                      style: TextStyle(fontSize: 12),
+                    Text(
+                      AppLocalizations.of(context)!.haveAnAccount,
+                      style: const TextStyle(fontSize: 12),
                     ),
                     const SizedBox(height: 24),
                     SizedBox(
@@ -106,7 +107,8 @@ class _RegisterScreenState extends State<RegisterScreen> {
                       height: 50,
                       child: OutlinedButton(
                         onPressed: () => widget.onLogin(),
-                        child: const Text("Login"),
+                        child:
+                            Text(AppLocalizations.of(context)!.loginTextButton),
                       ),
                     ),
                   ],

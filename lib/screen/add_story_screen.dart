@@ -19,7 +19,7 @@ class _AddStoryScreenState extends State<AddStoryScreen> {
   @override
   Widget build(BuildContext context) {
     return MainLayout(
-      title: 'Add Story',
+      title: AppLocalizations.of(context)!.addStory,
       body: Padding(
         padding: const EdgeInsets.symmetric(horizontal: 16),
         child: Column(
@@ -41,7 +41,7 @@ class _AddStoryScreenState extends State<AddStoryScreen> {
             Form(
               key: formKey,
               child: CustomFormField(
-                title: 'Deskripsi',
+                title: AppLocalizations.of(context)!.descriptionTitleForm,
                 editingController: descController,
               ),
             ),
@@ -55,7 +55,7 @@ class _AddStoryScreenState extends State<AddStoryScreen> {
                     child: OutlinedButton.icon(
                       onPressed: () => _onGalleryView(),
                       icon: const Icon(MdiIcons.image),
-                      label: const Text('Gallery'),
+                      label: Text(AppLocalizations.of(context)!.gallery),
                     ),
                   ),
                 ),
@@ -66,7 +66,7 @@ class _AddStoryScreenState extends State<AddStoryScreen> {
                     child: OutlinedButton.icon(
                       onPressed: () => _onCameraView(),
                       icon: const Icon(MdiIcons.camera),
-                      label: const Text('Camera'),
+                      label: Text(AppLocalizations.of(context)!.camera),
                     ),
                   ),
                 ),
@@ -85,7 +85,7 @@ class _AddStoryScreenState extends State<AddStoryScreen> {
                           _uploadStory();
                         }
                       },
-                      child: const Text('Submit')),
+                      child: Text(AppLocalizations.of(context)!.submit)),
             ),
             const SizedBox(height: 32)
           ],
@@ -148,7 +148,8 @@ class _AddStoryScreenState extends State<AddStoryScreen> {
     final imagePath = prov.imagePath;
     final image = prov.imageFile;
     if (imagePath == null || image == null) {
-      scaffold.showSnackBar(const SnackBar(content: Text("Gambar tidak boleh kosong")));
+      scaffold.showSnackBar(SnackBar(
+          content: Text(AppLocalizations.of(context)!.imageCannotBeEmpty)));
       return;
     }
 

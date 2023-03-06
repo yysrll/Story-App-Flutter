@@ -10,7 +10,7 @@ class DetailScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MainLayout(
-      title: "Story",
+      title: AppLocalizations.of(context)!.story,
       body: SingleChildScrollView(
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
@@ -29,7 +29,7 @@ class DetailScreen extends StatelessWidget {
                 color: Colors.blue,
               ),
               child: Text(
-                'Created at ${story.createdAt} by ${story.name}',
+                AppLocalizations.of(context)!.createdAtByName(story.createdAt, story.name),
                 style: Theme.of(context)
                     .textTheme
                     .labelSmall

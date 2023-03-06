@@ -11,14 +11,14 @@ class _SplashScreenState extends State<SplashScreen> {
   @override
   void initState() {
     // Future.delayed(const Duration(seconds: 5), () async {
-      // var isLogin = await checkIsLoggedIn();
-      // if (isLogin) {
-      //   to(const HomeScreen());
-      // } else {
-      //   to(const LoginScreen());
-      // }
+    // var isLogin = await checkIsLoggedIn();
+    // if (isLogin) {
+    //   to(const HomeScreen());
+    // } else {
+    //   to(const LoginScreen());
+    // }
 
-        // to(const LoginScreen());
+    // to(const LoginScreen());
     // });
     super.initState();
   }
@@ -44,15 +44,15 @@ class _SplashScreenState extends State<SplashScreen> {
             children: [
               Row(
                 mainAxisAlignment: MainAxisAlignment.center,
-                children: const [
-                  Icon(
+                children: [
+                  const Icon(
                     Icons.camera_alt_outlined,
                     size: 32,
                   ),
-                  SizedBox(width: 12),
+                  const SizedBox(width: 12),
                   Text(
-                    'Ceritaku',
-                    style: TextStyle(fontSize: 24),
+                    AppLocalizations.of(context)!.appTitle,
+                    style: const TextStyle(fontSize: 24),
                   )
                 ],
               ),

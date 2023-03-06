@@ -25,8 +25,9 @@ class _HomeScreenState extends State<HomeScreen> {
   @override
   Widget build(BuildContext context) {
     return MainLayout(
-      title: "Beranda",
+      title: AppLocalizations.of(context)!.home,
       action: [
+        const FlagIcon(),
         IconButton(
             onPressed: () async {
               final authRead = context.read<AuthProvider>();
