@@ -20,5 +20,6 @@
     "submit": "Submit",
     "addStory": "Add Story",
     "logoutConfirmation": "Are you sure to logout?",
-    "logout": "Logout"
+    "logout": "Logout",
+    "logoutSuccess": "Logout successfully"
 }

@@ -19,7 +19,9 @@ class HomeScreen extends StatefulWidget {
 class _HomeScreenState extends State<HomeScreen> {
   @override
   void initState() {
-    context.read<StoryProvider>().getStories();
+    Future.delayed(Duration.zero, () async {
+      context.read<StoryProvider>().getStories();
+    });
     super.initState();
   }
 
@@ -30,8 +32,13 @@ class _HomeScreenState extends State<HomeScreen> {
       action: [
         const FlagIcon(),
         IconButton(
-            onPressed: () {
-              _showLogoutDialog();
+            onPressed: () async {
+              final scaffoldMessengerState = ScaffoldMessenger.of(context);
+              widget.onLogout();
+              final dataFromDialog =
+                  await context.read<PageManager<String>>().waitForResult();
+              scaffoldMessengerState
+                  .showSnackBar(SnackBar(content: Text(dataFromDialog)));
             },
             icon: const Icon(MdiIcons.logout))
       ],
@@ -39,57 +46,28 @@ class _HomeScreenState extends State<HomeScreen> {
         onPressed: () => widget.onPost(),
         child: const Icon(MdiIcons.plus),
       ),
-      body: Consumer<StoryProvider>(builder: (context, prov, _) {
-        if (prov.state == ResultState.loading) {
-          return const Center(child: CircularProgressIndicator());
-        } else if (prov.state == ResultState.hasData) {
-          return ListView.builder(
-              itemCount: prov.stories.length,
-              itemBuilder: (context, i) {
-                return StoryCard(
-                  story: prov.stories[i],
-                  onTap: () {
-                    widget.onDetail(prov.stories[i]);
-                  },
-                );
-              });
-        } else {
-          return Center(child: Text(prov.message));
-        }
-      }),
+      body: _body(),
     );
   }
 
-  Future<void> _showLogoutDialog() async {
-    return showDialog<void>(
-      context: context,
-      barrierDismissible: false, // user must tap button!
-      builder: (BuildContext context) {
-        return AlertDialog(
-          title: Text(AppLocalizations.of(context)!.logoutConfirmation),
-          actions: <Widget>[
-            context.watch<AuthProvider>().isLoadingLogout
-                ? const CircularProgressIndicator()
-                : TextButton(
-                    child: Text(AppLocalizations.of(context)!.logout),
-                    onPressed: () async {
-                      final scaffoldMessengerState =
-                          ScaffoldMessenger.of(context);
-                      final authRead = context.read<AuthProvider>();
-                      final navigator = Navigator.of(context);
-                      final result = await authRead.logout();
-                      if (result) {
-                        widget.onLogout();
-                      } else {
-                        scaffoldMessengerState.showSnackBar(
-                            SnackBar(content: Text(authRead.message)));
-                      }
-                      navigator.pop();
-                    },
-                  ),
-          ],
-        );
-      },
-    );
+  Consumer<StoryProvider> _body() {
+    return Consumer<StoryProvider>(builder: (context, prov, _) {
+      if (prov.state == ResultState.loading) {
+        return const Center(child: CircularProgressIndicator());
+      } else if (prov.state == ResultState.hasData) {
+        return ListView.builder(
+            itemCount: prov.stories.length,
+            itemBuilder: (context, i) {
+              return StoryCard(
+                story: prov.stories[i],
+                onTap: () {
+                  widget.onDetail(prov.stories[i]);
+                },
+              );
+            });
+      } else {
+        return Center(child: Text(prov.message));
+      }
+    });
   }
 }

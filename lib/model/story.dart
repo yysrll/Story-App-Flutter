@@ -4,8 +4,8 @@ class Story {
   String description;
   String photoUrl;
   String createdAt;
-  double? lat;
-  double? lon;
+  num? lat;
+  num? lon;
 
   Story(
       {required this.id,

@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_story_app/data/pref/pref_helper.dart';
 import 'package:flutter_story_app/model/story.dart';
 import 'package:flutter_story_app/screen/screen.dart';
+import 'package:flutter_story_app/widgets/widget.dart';
 
 class MyRouterDelegate extends RouterDelegate
     with ChangeNotifier, PopNavigatorRouterDelegateMixin {
@@ -26,6 +27,7 @@ class MyRouterDelegate extends RouterDelegate
 
   Story? selectedStory;
   bool isPostScreen = false;
+  bool isShowLogoutDialog = false;
 
   @override
   Widget build(BuildContext context) {
@@ -48,6 +50,7 @@ class MyRouterDelegate extends RouterDelegate
         isRegister = true;
         selectedStory = null;
         isPostScreen = false;
+        isShowLogoutDialog = false;
         notifyListeners();
 
         return true;
@@ -102,7 +105,7 @@ class MyRouterDelegate extends RouterDelegate
           key: const ValueKey('HomePage'),
           child: HomeScreen(
             onLogout: () {
-              isLoggedIn = false;
+              isShowLogoutDialog = true;
               notifyListeners();
             },
             onDetail: (Story story) {
@@ -115,6 +118,18 @@ class MyRouterDelegate extends RouterDelegate
             },
           ),
         ),
+        if (isShowLogoutDialog)
+          LogoutAlertDialog(
+            onLogoutSuccess: () {
+              isShowLogoutDialog = false;
+              isLoggedIn = false;
+              notifyListeners();
+            },
+            onLogoutFailed: () {
+              isShowLogoutDialog = false;
+              notifyListeners();
+            },
+          ),
         if (selectedStory != null)
           MaterialPage(
             key: const ValueKey('DetailPage'),
@@ -122,11 +137,13 @@ class MyRouterDelegate extends RouterDelegate
           ),
         if (isPostScreen)
           MaterialPage(
-              key: const ValueKey('AddStoryPage'), child: AddStoryScreen(
-            onSubmit: () {
-              isPostScreen = false;
-              notifyListeners();
-            },
-          ))
+            key: const ValueKey('AddStoryPage'),
+            child: AddStoryScreen(
+              onSubmit: () {
+                isPostScreen = false;
+                notifyListeners();
+              },
+            ),
+          ),
       ];
 }

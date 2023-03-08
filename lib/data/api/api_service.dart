@@ -62,8 +62,8 @@ class ApiService {
     }
   }
 
-  Future<AddStoriesResponse> uploadStory(
-      List<int> bytes, String fileName, String description, String token) async {
+  Future<AddStoriesResponse> uploadStory(List<int> bytes, String fileName,
+      String description, String token) async {
     try {
       final request =
           http.MultipartRequest('POST', Uri.parse('${baseUrl}stories'));
