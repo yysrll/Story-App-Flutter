@@ -17,12 +17,29 @@ class HomeScreen extends StatefulWidget {
 }
 
 class _HomeScreenState extends State<HomeScreen> {
+  final ScrollController scrollController = ScrollController();
+
   @override
   void initState() {
-    Future.delayed(Duration.zero, () async {
-      context.read<StoryProvider>().getStories();
-    });
     super.initState();
+    final storyProv = context.read<StoryProvider>();
+
+    scrollController.addListener(() {
+      if (scrollController.position.pixels >=
+          scrollController.position.maxScrollExtent) {
+        if (storyProv.pageItems != null) {
+          storyProv.getStories();
+        }
+      }
+    });
+
+    Future.microtask(() => storyProv.getStories());
+  }
+
+  @override
+  void dispose() {
+    scrollController.dispose();
+    super.dispose();
   }
 
   @override
@@ -56,8 +73,17 @@ class _HomeScreenState extends State<HomeScreen> {
         return const Center(child: CircularProgressIndicator());
       } else if (prov.state == ResultState.hasData) {
         return ListView.builder(
-            itemCount: prov.stories.length,
+            controller: scrollController,
+            itemCount: prov.stories.length + (prov.pageItems != null ? 1 : 0),
             itemBuilder: (context, i) {
+              if (i == prov.stories.length && prov.pageItems != null) {
+                return const Center(
+                  child: Padding(
+                    padding: EdgeInsets.all(8),
+                    child: CircularProgressIndicator(),
+                  ),
+                );
+              }
               return StoryCard(
                 story: prov.stories[i],
                 onTap: () {

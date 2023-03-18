@@ -22,7 +22,10 @@ class StoryProvider extends ChangeNotifier {
 
   String get message => _message;
 
-  List<Story> _stories = [];
+  int? pageItems = 1;
+  int sizeItem = 10;
+
+  final List<Story> _stories = [];
 
   List<Story> get stories => _stories;
 
@@ -32,19 +35,30 @@ class StoryProvider extends ChangeNotifier {
 
   Future<void> getStories() async {
     try {
-      _state = ResultState.loading;
-      notifyListeners();
+      if (pageItems == 1) {
+        _state = ResultState.loading;
+        notifyListeners();
+      }
 
       final token = await pref.getToken();
 
-      final storiesResponse = await api.getStories(token);
+      final storiesResponse = await api.getStories(token, pageItems!, sizeItem);
       if (storiesResponse.listStory.isNotEmpty) {
         _state = ResultState.hasData;
       } else {
-        _state = ResultState.noData;
-        _message = 'Stories Not Found';
+        if (pageItems == 1) {
+          _state = ResultState.noData;
+          _message = 'Stories Not Found';
+        }
       }
-      _stories = storiesResponse.listStory;
+      _stories.addAll(storiesResponse.listStory);
+
+      if (storiesResponse.listStory.length < sizeItem) {
+        pageItems = null;
+      } else {
+        pageItems = pageItems! + 1;
+      }
+
       notifyListeners();
     } catch (e) {
       _state = ResultState.error;
