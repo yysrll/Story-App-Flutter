@@ -28,6 +28,7 @@ class MyRouterDelegate extends RouterDelegate
   Story? selectedStory;
   bool isPostScreen = false;
   bool isShowLogoutDialog = false;
+  bool isMapScreen = false;
 
   @override
   Widget build(BuildContext context) {
@@ -51,6 +52,7 @@ class MyRouterDelegate extends RouterDelegate
         selectedStory = null;
         isPostScreen = false;
         isShowLogoutDialog = false;
+        isMapScreen = false;
         notifyListeners();
 
         return true;
@@ -116,6 +118,10 @@ class MyRouterDelegate extends RouterDelegate
               isPostScreen = true;
               notifyListeners();
             },
+            onMap: () {
+              isMapScreen = true;
+              notifyListeners();
+            },
           ),
         ),
         if (isShowLogoutDialog)
@@ -145,5 +151,7 @@ class MyRouterDelegate extends RouterDelegate
               },
             ),
           ),
+        if (isMapScreen)
+          const MaterialPage(key: ValueKey("MapPage"), child: MapScreen()),
       ];
 }

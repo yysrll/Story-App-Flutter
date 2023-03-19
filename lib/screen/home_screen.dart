@@ -4,13 +4,15 @@ class HomeScreen extends StatefulWidget {
   final Function() onLogout;
   final Function(Story) onDetail;
   final Function() onPost;
+  final Function() onMap;
 
-  const HomeScreen({
-    Key? key,
-    required this.onLogout,
-    required this.onDetail,
-    required this.onPost,
-  }) : super(key: key);
+  const HomeScreen(
+      {Key? key,
+      required this.onLogout,
+      required this.onDetail,
+      required this.onPost,
+      required this.onMap})
+      : super(key: key);
 
   @override
   State<HomeScreen> createState() => _HomeScreenState();
@@ -48,6 +50,7 @@ class _HomeScreenState extends State<HomeScreen> {
       title: AppLocalizations.of(context)!.home,
       action: [
         const FlagIcon(),
+        IconButton(onPressed: widget.onMap, icon: const Icon(MdiIcons.map)),
         IconButton(
             onPressed: () async {
               final scaffoldMessengerState = ScaffoldMessenger.of(context);
