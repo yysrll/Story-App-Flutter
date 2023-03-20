@@ -22,5 +22,9 @@
     "logoutConfirmation": "Are you sure to logout?",
     "logout": "Logout",
     "logoutSuccess": "Logout successfully",
-    "map": "Map"
+    "map": "Map",
+    "locationServiceNotAvailable": "Location services is not available",
+    "locationPermissionIsDenied": "Location permission is denied",
+    "location": "Location",
+    "locationNotFound": "Location Not Found"
 }

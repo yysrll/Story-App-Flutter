@@ -36,6 +36,7 @@ class StoryProvider extends ChangeNotifier {
   Future<void> getStories() async {
     try {
       if (pageItems == 1) {
+        _stories.clear();
         _state = ResultState.loading;
         notifyListeners();
       }
@@ -73,19 +74,17 @@ class StoryProvider extends ChangeNotifier {
     return stories.listStory;
   }
 
-  Future<bool> uploadStory(
-    List<int> bytes,
-    String fileName,
-    String description,
-  ) async {
+  Future<bool> uploadStory(List<int> bytes, String fileName, String description,
+      {double? latitude, double? longitude}) async {
     var isSuccess = false;
     try {
       _isUploadLoading = true;
       notifyListeners();
 
       final token = await pref.getToken();
-      final uploadResponse =
-          await api.uploadStory(bytes, fileName, description, token);
+      final uploadResponse = await api.uploadStory(
+          bytes, fileName, description, token,
+          latitude: latitude, longitude: longitude);
       _message = uploadResponse.message;
       isSuccess = !uploadResponse.error;
     } catch (e) {

@@ -49,5 +49,9 @@
     "logoutConfirmation": "Apakah anda yakin untuk keluar?",
     "logout": "Keluar",
     "logoutSuccess": "Anda berhasil keluar",
-    "map": "Peta"
+    "map": "Peta",
+    "locationServiceNotAvailable": "Layanan lokasi tidak tersedia",
+    "locationPermissionIsDenied": "Izin lokasi ditolak",
+    "location": "Lokasi",
+    "locationNotFound": "Lokasi tidak ditemukan"
 }

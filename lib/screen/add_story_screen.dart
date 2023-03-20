@@ -16,6 +16,62 @@ class _AddStoryScreenState extends State<AddStoryScreen> {
   final GlobalKey<FormState> formKey = GlobalKey<FormState>();
   TextEditingController descController = TextEditingController();
 
+  double? latitude;
+  double? longitude;
+  String? infoLocation;
+
+  void getMyLocation() async {
+    final Location location = Location();
+    late bool serviceEnabled;
+    late PermissionStatus permissionGranted;
+    late LocationData locationData;
+    // final scaffoldMessenger = ScaffoldMessenger.of(context);
+    // final localization = AppLocalizations.of(context)!;
+
+    serviceEnabled = await location.serviceEnabled();
+    if (!serviceEnabled) {
+      serviceEnabled = await location.requestService();
+      if (!serviceEnabled) {
+        // scaffoldMessenger.showSnackBar(
+        //   SnackBar(
+        //     content: Text(localization.locationServiceNotAvailable),
+        //   ),
+        // );
+        print("service tidak ada");
+        return;
+      }
+    }
+
+    permissionGranted = await location.hasPermission();
+    if (permissionGranted == PermissionStatus.denied) {
+      permissionGranted = await location.requestPermission();
+      if (permissionGranted != PermissionStatus.granted) {
+        // scaffoldMessenger.showSnackBar(
+        //   SnackBar(
+        //     content: Text(localization.locationPermissionIsDenied),
+        //   ),
+        // );
+        print("permission ditolak");
+        return;
+      }
+    }
+
+    locationData = await location.getLocation();
+    latitude = locationData.latitude;
+    longitude = locationData.longitude;
+
+    final info = await geo.placemarkFromCoordinates(latitude!, longitude!);
+    setState(() {
+      infoLocation = "${info[0].locality}, ${info[0].country}";
+    });
+  }
+
+  @override
+  void initState() {
+    super.initState();
+    getMyLocation();
+  }
+
   @override
   Widget build(BuildContext context) {
     return MainLayout(
@@ -38,6 +94,17 @@ class _AddStoryScreenState extends State<AddStoryScreen> {
               ),
             ),
             const SizedBox(height: 16),
+            Text(
+              AppLocalizations.of(context)!.location,
+              style: const TextStyle(fontSize: 16, fontWeight: FontWeight.bold),
+            ),
+            Text(
+              infoLocation ?? AppLocalizations.of(context)!.locationNotFound,
+              style: const TextStyle(
+                fontSize: 16,
+              ),
+            ),
+            const SizedBox(height: 8),
             Form(
               key: formKey,
               child: CustomFormField(
@@ -157,10 +224,12 @@ class _AddStoryScreenState extends State<AddStoryScreen> {
     final bytes = await image.readAsBytes();
     final description = descController.text;
 
-    await Utils().compressImage(bytes);
-    final result = await prov.uploadStory(bytes, fileName, description);
+    final imageBytes = await Utils().compressImage(bytes);
+    final result = await prov.uploadStory(imageBytes, fileName, description,
+        latitude: latitude, longitude: longitude);
     if (result) {
       widget.onSubmit();
+      prov.pageItems = 1;
       prov.getStories();
     } else {
       scaffold.showSnackBar(SnackBar(content: Text(prov.message)));

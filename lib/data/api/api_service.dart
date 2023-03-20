@@ -65,12 +65,14 @@ class ApiService {
   }
 
   Future<AddStoriesResponse> uploadStory(List<int> bytes, String fileName,
-      String description, String token) async {
+      String description, String token, {double? latitude, double? longitude}) async {
     try {
       final request =
           http.MultipartRequest('POST', Uri.parse('${baseUrl}stories'));
       final Map<String, String> fields = {
         'description': description,
+        'lat': latitude?.toString() ?? "",
+        'lon': longitude?.toString() ?? ""
       };
       final http.MultipartFile multipartFile = http.MultipartFile.fromBytes(
         "photo",
