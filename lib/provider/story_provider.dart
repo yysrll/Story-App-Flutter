@@ -67,6 +67,12 @@ class StoryProvider extends ChangeNotifier {
     }
   }
 
+  Future<List<Story>> getStoriesWithLocation() async {
+    final token = await pref.getToken();
+    final stories = await api.getStories(token, 1, 10, location: 1);
+    return stories.listStory;
+  }
+
   Future<bool> uploadStory(
     List<int> bytes,
     String fileName,
