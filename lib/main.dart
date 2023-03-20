@@ -4,6 +4,7 @@ import 'package:flutter_story_app/data/pref/pref_helper.dart';
 import 'package:flutter_story_app/provider/auth_provider.dart';
 import 'package:flutter_story_app/provider/localization_provider.dart';
 import 'package:flutter_story_app/provider/story_provider.dart';
+import 'package:flutter_story_app/routes/page_location_manager.dart';
 import 'package:flutter_story_app/routes/page_manager.dart';
 import 'package:flutter_story_app/routes/router_delegate.dart';
 import 'package:provider/provider.dart';
@@ -40,6 +41,7 @@ class _MyAppState extends State<MyApp> {
           create: (context) => AuthProvider(),
         ),
         ChangeNotifierProvider(create: (context) => PageManager<String>()),
+        ChangeNotifierProvider(create: (context) => PageLocationManager<String>()),
         ChangeNotifierProvider(create: (context) => StoryProvider()),
       ],
       child: ChangeNotifierProvider<LocalizationProvider>(

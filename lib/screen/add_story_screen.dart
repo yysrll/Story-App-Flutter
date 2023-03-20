@@ -2,11 +2,10 @@ part of 'screen.dart';
 
 class AddStoryScreen extends StatefulWidget {
   final Function() onSubmit;
+  final Function() onPickLocation;
 
-  const AddStoryScreen({
-    super.key,
-    required this.onSubmit,
-  });
+  const AddStoryScreen(
+      {super.key, required this.onSubmit, required this.onPickLocation});
 
   @override
   State<AddStoryScreen> createState() => _AddStoryScreenState();
@@ -25,18 +24,11 @@ class _AddStoryScreenState extends State<AddStoryScreen> {
     late bool serviceEnabled;
     late PermissionStatus permissionGranted;
     late LocationData locationData;
-    // final scaffoldMessenger = ScaffoldMessenger.of(context);
-    // final localization = AppLocalizations.of(context)!;
 
     serviceEnabled = await location.serviceEnabled();
     if (!serviceEnabled) {
       serviceEnabled = await location.requestService();
       if (!serviceEnabled) {
-        // scaffoldMessenger.showSnackBar(
-        //   SnackBar(
-        //     content: Text(localization.locationServiceNotAvailable),
-        //   ),
-        // );
         print("service tidak ada");
         return;
       }
@@ -46,11 +38,6 @@ class _AddStoryScreenState extends State<AddStoryScreen> {
     if (permissionGranted == PermissionStatus.denied) {
       permissionGranted = await location.requestPermission();
       if (permissionGranted != PermissionStatus.granted) {
-        // scaffoldMessenger.showSnackBar(
-        //   SnackBar(
-        //     content: Text(localization.locationPermissionIsDenied),
-        //   ),
-        // );
         print("permission ditolak");
         return;
       }
@@ -60,6 +47,10 @@ class _AddStoryScreenState extends State<AddStoryScreen> {
     latitude = locationData.latitude;
     longitude = locationData.longitude;
 
+    getInfoLocation();
+  }
+
+  void getInfoLocation() async {
     final info = await geo.placemarkFromCoordinates(latitude!, longitude!);
     setState(() {
       infoLocation = "${info[0].locality}, ${info[0].country}";
@@ -94,15 +85,38 @@ class _AddStoryScreenState extends State<AddStoryScreen> {
               ),
             ),
             const SizedBox(height: 16),
-            Text(
-              AppLocalizations.of(context)!.location,
-              style: const TextStyle(fontSize: 16, fontWeight: FontWeight.bold),
-            ),
-            Text(
-              infoLocation ?? AppLocalizations.of(context)!.locationNotFound,
-              style: const TextStyle(
-                fontSize: 16,
-              ),
+            Row(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              children: [
+                Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Text(
+                      AppLocalizations.of(context)!.location,
+                      style: const TextStyle(
+                          fontSize: 16, fontWeight: FontWeight.bold),
+                    ),
+                    Text(
+                      infoLocation ??
+                          AppLocalizations.of(context)!.locationNotFound,
+                      style: const TextStyle(
+                        fontSize: 16,
+                      ),
+                    ),
+                  ],
+                ),
+                IconButton(
+                    onPressed: () async {
+                      widget.onPickLocation();
+                      final dataFromMapPicker = await context
+                          .read<PageLocationManager<String>>()
+                          .waitForResult();
+                      latitude = dataFromMapPicker.latitude;
+                      longitude = dataFromMapPicker.longitude;
+                      getInfoLocation();
+                    },
+                    icon: const Icon(Icons.location_pin))
+              ],
             ),
             const SizedBox(height: 8),
             Form(

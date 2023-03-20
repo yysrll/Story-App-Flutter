@@ -53,5 +53,6 @@
     "locationServiceNotAvailable": "Layanan lokasi tidak tersedia",
     "locationPermissionIsDenied": "Izin lokasi ditolak",
     "location": "Lokasi",
-    "locationNotFound": "Lokasi tidak ditemukan"
+    "locationNotFound": "Lokasi tidak ditemukan",
+    "chooseLocation": "Pilih Lokasi"
 }

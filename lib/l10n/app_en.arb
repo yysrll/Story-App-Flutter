@@ -26,5 +26,6 @@
     "locationServiceNotAvailable": "Location services is not available",
     "locationPermissionIsDenied": "Location permission is denied",
     "location": "Location",
-    "locationNotFound": "Location Not Found"
+    "locationNotFound": "Location Not Found",
+    "chooseLocation": "Choose location"
 }

@@ -29,6 +29,7 @@ class MyRouterDelegate extends RouterDelegate
   bool isPostScreen = false;
   bool isShowLogoutDialog = false;
   bool isMapScreen = false;
+  bool isMapPickerScreen = false;
 
   @override
   Widget build(BuildContext context) {
@@ -50,9 +51,12 @@ class MyRouterDelegate extends RouterDelegate
 
         isRegister = true;
         selectedStory = null;
-        isPostScreen = false;
+        if (!isMapPickerScreen) {
+          isPostScreen = false;
+        }
         isShowLogoutDialog = false;
         isMapScreen = false;
+        isMapPickerScreen = false;
         notifyListeners();
 
         return true;
@@ -147,6 +151,20 @@ class MyRouterDelegate extends RouterDelegate
             child: AddStoryScreen(
               onSubmit: () {
                 isPostScreen = false;
+                notifyListeners();
+              },
+              onPickLocation: () {
+                isMapPickerScreen = true;
+                notifyListeners();
+              },
+            ),
+          ),
+        if (isMapPickerScreen)
+          MaterialPage(
+            key: const ValueKey("mapPickerPage"),
+            child: MapPickerScreen(
+              onSelectLocation: () {
+                isMapPickerScreen = false;
                 notifyListeners();
               },
             ),
