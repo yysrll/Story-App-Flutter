@@ -13,3 +13,4 @@ part 'custom_password_form_field.dart';
 part 'story_card.dart';
 part 'flag_icon.dart';
 part 'logout_alert_dialog.dart';
+part 'placemark.dart';

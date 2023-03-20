@@ -11,6 +11,7 @@ class _MapScreenState extends State<MapScreen> {
   late GoogleMapController mapController;
   final Set<Marker> markers = {};
   final List<Story> stories = [];
+  Story? selectedStory;
 
   final dicodingOffice = const LatLng(-6.8957473, 107.6337669);
 
@@ -25,6 +26,9 @@ class _MapScreenState extends State<MapScreen> {
           onTap: () {
             mapController
                 .animateCamera(CameraUpdate.newLatLngZoom(position, 18));
+            setState(() {
+              selectedStory = story;
+            });
           }));
     }
 
@@ -66,17 +70,55 @@ class _MapScreenState extends State<MapScreen> {
   Widget build(BuildContext context) {
     return MainLayout(
       title: "Map",
-      body: GoogleMap(
-        markers: markers,
-        initialCameraPosition: CameraPosition(
-          zoom: 18,
-          target: dicodingOffice,
-        ),
-        onMapCreated: (controller) {
-          setState(() {
-            mapController = controller;
-          });
-        },
+      body: Stack(
+        children: [
+          GoogleMap(
+            markers: markers,
+            initialCameraPosition: CameraPosition(
+              zoom: 18,
+              target: dicodingOffice,
+            ),
+            onMapCreated: (controller) {
+              setState(() {
+                mapController = controller;
+              });
+            },
+            zoomControlsEnabled: false,
+          ),
+          if (selectedStory != null)
+            Positioned(
+              right: 16,
+              left: 16,
+              bottom: 16,
+              child: PlaceMark(
+                story: selectedStory!,
+              ),
+            )
+          else
+            const SizedBox(),
+          Positioned(
+            top: 16,
+            right: 16,
+            child: Column(
+              children: [
+                FloatingActionButton.small(
+                  heroTag: "zoom-in",
+                  onPressed: () {
+                    mapController.animateCamera(CameraUpdate.zoomIn());
+                  },
+                  child: const Icon(Icons.add),
+                ),
+                FloatingActionButton.small(
+                  heroTag: "zoom-out",
+                  onPressed: () {
+                    mapController.animateCamera(CameraUpdate.zoomOut());
+                  },
+                  child: const Icon(Icons.remove),
+                ),
+              ],
+            ),
+          )
+        ],
       ),
     );
   }
