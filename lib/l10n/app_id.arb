@@ -48,5 +48,6 @@
     "addStory": "Tambah cerita",
     "logoutConfirmation": "Apakah anda yakin untuk keluar?",
     "logout": "Keluar",
-    "logoutSuccess": "Anda berhasil keluar"
+    "logoutSuccess": "Anda berhasil keluar",
+    "map": "Peta"
 }

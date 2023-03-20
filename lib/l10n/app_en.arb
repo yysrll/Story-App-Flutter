@@ -21,5 +21,6 @@
     "addStory": "Add Story",
     "logoutConfirmation": "Are you sure to logout?",
     "logout": "Logout",
-    "logoutSuccess": "Logout successfully"
+    "logoutSuccess": "Logout successfully",
+    "map": "Map"
 }

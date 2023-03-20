@@ -69,7 +69,7 @@ class _MapScreenState extends State<MapScreen> {
   @override
   Widget build(BuildContext context) {
     return MainLayout(
-      title: "Map",
+      title: AppLocalizations.of(context)!.map,
       body: Stack(
         children: [
           GoogleMap(
