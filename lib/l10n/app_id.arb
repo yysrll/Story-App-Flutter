@@ -54,5 +54,6 @@
     "locationPermissionIsDenied": "Izin lokasi ditolak",
     "location": "Lokasi",
     "locationNotFound": "Lokasi tidak ditemukan",
-    "chooseLocation": "Pilih Lokasi"
+    "chooseLocation": "Pilih Lokasi",
+    "loading": "Memuat..."
 }

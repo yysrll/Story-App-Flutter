@@ -16,6 +16,7 @@ class _MapPickerScreenState extends State<MapPickerScreen> {
   final Set<Marker> markers = {};
   LatLng? selectedLocation;
   final dicodingOffice = const LatLng(-6.8957473, 107.6337669);
+  String infoLocation = "";
 
   @override
   Widget build(BuildContext context) {
@@ -45,14 +46,35 @@ class _MapPickerScreenState extends State<MapPickerScreen> {
               bottom: 16,
               left: 16,
               right: 16,
-              child: ElevatedButton(
-                onPressed: () {
-                  widget.onSelectLocation();
-                  context
-                      .read<PageLocationManager<String>>()
-                      .returnData(selectedLocation!);
-                },
-                child: Text(AppLocalizations.of(context)!.chooseLocation),
+              child: Container(
+                padding: const EdgeInsets.all(16),
+                decoration: BoxDecoration(
+                  color: Colors.white,
+                  borderRadius: const BorderRadius.all(Radius.circular(4)),
+                  boxShadow: <BoxShadow>[
+                    BoxShadow(
+                        blurRadius: 16,
+                        offset: Offset.zero,
+                        color: Colors.grey.withOpacity(0.5)),
+                  ],
+                ),
+                child: Column(
+                  children: [
+                    Text(infoLocation),
+                    const SizedBox(
+                      height: 8,
+                    ),
+                    ElevatedButton(
+                      onPressed: () {
+                        widget.onSelectLocation();
+                        context
+                            .read<PageLocationManager<String>>()
+                            .returnData(selectedLocation!);
+                      },
+                      child: Text(AppLocalizations.of(context)!.chooseLocation),
+                    ),
+                  ],
+                ),
               ),
             ),
         ],
@@ -61,7 +83,11 @@ class _MapPickerScreenState extends State<MapPickerScreen> {
   }
 
   void onLongPressGoogleMap(LatLng latLng) async {
+    setState(() {
+      infoLocation = AppLocalizations.of(context)!.loading;
+    });
     defineMarker(latLng);
+    getInfoLocation(latLng);
     selectedLocation = latLng;
 
     mapController.animateCamera(
@@ -78,6 +104,14 @@ class _MapPickerScreenState extends State<MapPickerScreen> {
     setState(() {
       markers.clear();
       markers.add(marker);
+    });
+  }
+
+  void getInfoLocation(LatLng latLng) async {
+    final info =
+        await geo.placemarkFromCoordinates(latLng.latitude, latLng.longitude);
+    setState(() {
+      infoLocation = "${info[0].locality}, ${info[0].country}";
     });
   }
 }
