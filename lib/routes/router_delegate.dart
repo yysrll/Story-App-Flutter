@@ -49,7 +49,7 @@ class MyRouterDelegate extends RouterDelegate
           return false;
         }
 
-        isRegister = true;
+        isRegister = false;
         selectedStory = null;
         if (!isMapPickerScreen) {
           isPostScreen = false;
