@@ -2,10 +2,8 @@ part of 'widget.dart';
 
 class PlaceMark extends StatelessWidget {
   final Story story;
-  const PlaceMark({
-    super.key,
-    required this.story,
-  });
+  final String location;
+  const PlaceMark({super.key, required this.story, required this.location});
 
   @override
   Widget build(BuildContext context) {
@@ -35,6 +33,10 @@ class PlaceMark extends StatelessWidget {
             Text(
               story.name,
               style: Theme.of(context).textTheme.titleLarge,
+            ),
+            Text(
+              location,
+              style: Theme.of(context).textTheme.labelMedium,
             ),
             Text(
               story.createdAt,

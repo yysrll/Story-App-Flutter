@@ -12,6 +12,7 @@ class _MapScreenState extends State<MapScreen> {
   final Set<Marker> markers = {};
   final List<Story> stories = [];
   Story? selectedStory;
+  String? location;
 
   final dicodingOffice = const LatLng(-6.8957473, 107.6337669);
 
@@ -29,6 +30,7 @@ class _MapScreenState extends State<MapScreen> {
             setState(() {
               selectedStory = story;
             });
+            getInfoLocation();
           }));
     }
 
@@ -92,6 +94,7 @@ class _MapScreenState extends State<MapScreen> {
               bottom: 16,
               child: PlaceMark(
                 story: selectedStory!,
+                location: location ?? AppLocalizations.of(context)!.loading,
               ),
             )
           else
@@ -121,5 +124,15 @@ class _MapScreenState extends State<MapScreen> {
         ],
       ),
     );
+  }
+
+  void getInfoLocation() async {
+    final info = await geo.placemarkFromCoordinates(
+      selectedStory?.lat as double,
+      selectedStory?.lon as double,
+    );
+    setState(() {
+      location = "${info[0].locality}, ${info[0].country}";
+    });
   }
 }

@@ -14,6 +14,7 @@ class DetailScreen extends StatefulWidget {
 class _DetailScreenState extends State<DetailScreen> {
   late GoogleMapController mapController;
   late LatLng position;
+  String? location;
   final Set<Marker> markers = {};
 
   @override
@@ -31,6 +32,7 @@ class _DetailScreenState extends State<DetailScreen> {
           mapController.animateCamera(CameraUpdate.newLatLngZoom(position, 18));
         },
       ));
+      getInfoLocation();
     }
   }
 
@@ -65,6 +67,7 @@ class _DetailScreenState extends State<DetailScreen> {
           bottom: 16,
           child: PlaceMark(
             story: widget.story,
+            location: location ?? AppLocalizations.of(context)!.loading,
           ),
         )
       ],
@@ -113,5 +116,15 @@ class _DetailScreenState extends State<DetailScreen> {
         ],
       ),
     );
+  }
+
+  void getInfoLocation() async {
+    final info = await geo.placemarkFromCoordinates(
+      widget.story.lat as double,
+      widget.story.lon as double,
+    );
+    setState(() {
+      location = "${info[0].locality}, ${info[0].country}";
+    });
   }
 }
